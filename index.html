@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RIYADH MOTORSHOW LIVE</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0b1220;
+      color: white;
+      text-align: center;
+      padding: 40px;
+      direction: rtl;
+    }
+    h1 { font-size: 38px; margin-bottom: 20px; }
+    .box {
+      margin: 20px auto;
+      padding: 30px;
+      width: 80%;
+      max-width: 600px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .label {
+      font-size: 26px;
+      color: #9aa4b2;
+      margin-bottom: 10px;
+    }
+    .value {
+      font-size: 70px;
+      color: #ffb703;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="title">جاري التحميل...</h1>
+
+  <div class="box">
+    <div class="label">القيمة الاسمية</div>
+    <div class="value" id="nominal">--</div>
+  </div>
+
+  <div class="box">
+    <div class="label">القيمة الحالية</div>
+    <div class="value" id="current">--</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCW0TfoVoGt-V73gCDwiEbvtmObClew6M0",
+      authDomain: "riyadh-motoshow.firebaseapp.com",
+      projectId: "riyadh-motoshow",
+      storageBucket: "riyadh-motoshow.firebasestorage.app",
+      messagingSenderId: "524282460328",
+      appId: "1:524282460328:web:1fa50981ae562d8f4eaa9d",
+      measurementId: "G-0SQK5V42CM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const ref = doc(db, "auction", "values");
+
+    onSnapshot(ref, snap => {
+      if (!snap.exists()) return;
+
+      const d = snap.data();
+
+      document.getElementById("title").innerText = d.title || "RIYADH MOTORSHOW";
+      document.getElementById("nominal").innerText = d.nominal || "--";
+      document.getElementById("current").innerText = d.current || "--";
+    });
+  </script>
+
+</body>
+</html>

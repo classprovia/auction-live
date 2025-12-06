@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Control — Riyadh Motorshow</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      margin: 20px; 
+      background: #f1f5f9;
+    }
+    .card {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>لوحة التحكم — تحديث القيم</h2>
+
+  <label>عنوان الشريحة</label>
+  <input id="title" placeholder="اكتب عنوان المزاد">
+
+  <label>القيمة الاسمية</label>
+  <input id="nominal" placeholder="100000">
+
+  <label>القيمة الحالية</label>
+  <input id="current" placeholder="120000">
+
+  <button id="saveBtn">حفظ القيم</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCW0TfoVoGt-V73gCDwiEbvtmObClew6M0",
+    authDomain: "riyadh-motoshow.firebaseapp.com",
+    projectId: "riyadh-motoshow",
+    storageBucket: "riyadh-motoshow.firebasestorage.app",
+    messagingSenderId: "524282460328",
+    appId: "1:524282460328:web:1fa50981ae562d8f4eaa9d",
+    measurementId: "G-0SQK5V42CM"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const ref = doc(db, "auction", "values");
+
+  // تحميل البيانات الحالية
+  (async () => {
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      const d = snap.data();
+      document.getElementById("title").value = d.title || "";
+      document.getElementById("nominal").value = d.nominal || "";
+      document.getElementById("current").value = d.current || "";
+    }
+  })();
+
+  document.getElementById("saveBtn").onclick = async () => {
+    await setDoc(ref, {
+      title: document.getElementById("title").value,
+      nominal: document.getElementById("nominal").value,
+      current: document.getElementById("current").value
+    }, { merge: true });
+
+    alert("تم تحديث القيم — التحديث ظهر Live");
+  };
+</script>
+
+</body>
+</html>
