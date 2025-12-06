@@ -2,52 +2,82 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>RIYADH MOTORSHOW LIVE</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0b1220;
-      color: white;
-      text-align: center;
-      padding: 40px;
+      padding: 0;
+      background: white;
+      font-family: "Segoe UI", Tahoma, Arial;
       direction: rtl;
+      text-align: right;
     }
-    h1 { font-size: 38px; margin-bottom: 20px; }
-    .box {
-      margin: 20px auto;
-      padding: 30px;
-      width: 80%;
-      max-width: 600px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px;
     }
-    .label {
-      font-size: 26px;
-      color: #9aa4b2;
-      margin-bottom: 10px;
-    }
-    .value {
-      font-size: 70px;
-      color: #ffb703;
+
+    .title {
+      font-size: 48px;
       font-weight: bold;
+      color: black;
+      margin-bottom: 40px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .box {
+      flex: 1;
+      padding: 40px;
+      border: 2px solid #222;
+      border-radius: 15px;
+      background: #f4f4f4;
+    }
+
+    .label {
+      font-size: 32px;
+      font-weight: 600;
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    .value {
+      font-size: 64px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    @media(max-width:900px){
+      .row { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-  <h1 id="title">جاري التحميل...</h1>
+  <div class="container">
+    <div class="title" id="title">المزاد الخاص بمعرض الرياض للسيارت</div>
 
-  <div class="box">
-    <div class="label">القيمة الاسمية</div>
-    <div class="value" id="nominal">--</div>
-  </div>
+    <div class="row">
+      <div class="box">
+        <div class="label">القيمة الأسمية</div>
+        <div class="value" id="nominal">--</div>
+      </div>
 
-  <div class="box">
-    <div class="label">القيمة الحالية</div>
-    <div class="value" id="current">--</div>
+      <div class="box">
+        <div class="label">القيمة الحالية</div>
+        <div class="value" id="current">--</div>
+      </div>
+    </div>
+
   </div>
 
   <script type="module">
@@ -74,7 +104,7 @@
 
       const d = snap.data();
 
-      document.getElementById("title").innerText = d.title || "RIYADH MOTORSHOW";
+      document.getElementById("title").innerText = d.title || "";
       document.getElementById("nominal").innerText = d.nominal || "--";
       document.getElementById("current").innerText = d.current || "--";
     });
